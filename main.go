@@ -2,6 +2,7 @@ package main
 
 import (
 	gami "code.google.com/p/gami"
+	"flag"
 	"fmt"
 	"github.com/bmizerany/pat"
 	log "github.com/cihub/seelog"
@@ -10,9 +11,13 @@ import (
 	"os"
 )
 
+const (
+	VERSION = "0.0.1"
+)
+
 var (
 	config  *Config
-	version = "0.1"
+	version = flag.Bool("version", false, "show version")
 )
 
 func loadLogger() {
@@ -98,18 +103,21 @@ func getStatusGbl(w http.ResponseWriter, r *http.Request) {
 	response := fmt.Sprintf("%s\nMysqlDb = [%d]\nMongoDb = [%d]\n%s\n%s",
 		sysInfo.GblString(), mysqlDbStatus, mongoDbStatus, crmMon.GblString(), astInfo.GblString())
 	w.Write([]byte(response))
-
-	//w.Write([]byte(astInfo.String()))
-
 }
 
 func getIndex(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("<html><body><H1><center> Hi Thank to use AMON version  " + version + "</center></b><center><H2>Live well</H2></center></body></html>"))
+	w.Write([]byte("<html><body><H1><center>Thank to use AMON version  " + VERSION + "(not production ready)</center></b><center><H2>Live well</H2></center></body></html>"))
 
 }
 
 func main() {
-
+	flag.Parse()
+	//
+	if *version {
+		fmt.Printf("Version : %s\n", VERSION)
+		fmt.Println("Get fun! Live well !")
+		return
+	}
 	var err error
 	config, err = NewConfig()
 	if err != nil {
@@ -118,7 +126,9 @@ func main() {
 	}
 	mux := pat.New()
 	mux.Get("/getstatus/gbl", http.HandlerFunc(getStatusGbl))
+
 	mux.Get("/index", http.HandlerFunc(getIndex))
+
 	mux.Get("/about", http.HandlerFunc(getIndex))
 
 	http.Handle("/", mux)

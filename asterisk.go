@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net"
 	"strings"
-	//"time"
 )
 
 func ConnectToAsterisk(addr string, port int, username string, password string) (a *gami.Asterisk, con net.Conn, err error) {
@@ -47,7 +46,7 @@ func getAsteriskSystemUptime(ast *gami.Asterisk) (uptime string, err error) {
 	if err != nil {
 		return "", err
 	}
-	fmt.Println(m)
+
 	return m["System uptime"], nil
 }
 
@@ -58,9 +57,8 @@ func getAsteriskPriSpans(ast *gami.Asterisk) (r []PriSpan, err error) {
 
 		return func(m gami.Message) {
 			ml = append(ml, m)
-			//fmt.Println(m)
+
 			if m["Event"] == "PRIShowSpansComplete" {
-				//
 				ch <- true
 			}
 
@@ -99,8 +97,8 @@ func getAsteriskSipPeers(ast *gami.Asterisk) (r []SipPeer, err error) {
 	cscf := func() func(gami.Message) {
 
 		return func(m gami.Message) {
-			//fmt.Println(m)
 			ml = append(ml, m)
+
 			if m["Event"] == "PeerlistComplete" {
 				//
 				ch <- true
@@ -141,7 +139,7 @@ func getSipTrunks(ast *gami.Asterisk) (r []SipTrunk, err error) {
 	cscf := func() func(gami.Message) {
 
 		return func(m gami.Message) {
-			//fmt.Println(m)
+
 			ml = append(ml, m)
 
 			if m["Event"] == "RegistrationsComplete" {
@@ -200,7 +198,7 @@ func getIaxTrunks(ast *gami.Asterisk) (r []IaxTrunk, err error) {
 	m := gami.Message{"Action": "IAXregistry"}
 
 	ast.HoldCallbackAction(m, &cscf)
-
+	//wait for callback
 	<-ch
 
 	for i := 0; i < len(ml); i++ {
@@ -238,6 +236,7 @@ func getAsteriskCalls(ast *gami.Asterisk) (activeCalls, processedCalls string, e
 }
 
 //PLEASE see the AsteriskInfo struct about returned informations
+//Channels used for waiting response from the asterisk server
 func GetAsteriskInfo(ast *gami.Asterisk) (*AsteriskInfo, error) {
 	var err error
 

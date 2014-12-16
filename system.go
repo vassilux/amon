@@ -62,19 +62,25 @@ func GetMySqlStatus(host, user, password string) error {
 	db := mysql.New("tcp", "", host, user, password, "asteriskcdrdb")
 	//
 	err := db.Connect()
+
 	if err != nil {
 		return err
 	}
 	err = db.Close()
+
 	return err
 }
 
 func GetMongoStatus(address string) error {
 	session, err := mgo.Dial(address)
+
 	if err != nil {
+
 		return err
 	}
 	session.SetMode(mgo.Monotonic, true)
+
 	defer session.Close()
+
 	return nil
 }
