@@ -1,0 +1,12 @@
+Asterisk
+1.Nombres de span ok : asterisk -rx 'dahdi show status' | grep Span | grep -wx OK 
+2.Nombres de cannaux DAHDI utilisés : asterisk -rx "core show channels" | grep -c DAHDI/
+3.Temps de démarrage : asterisk -rx 'core show uptime'
+
+Cluster
+1. Node ou asterisk est démarré : crm_-1 | grep Digium:asterisk | cut -d ")" -f2 cut -d ":" -f2
+2. Nodes en mode online: crm_mon -1 | grep Online | cut -d "[" -f2 | cut -d "]" -f1
+3. Nodes en standby : crm_mon -1 | grep standby| cut -d " " -f2 | cut -d ":" -f1
+
+OS
+1.Infos OS : System Uptime, Total Ram, Free Ram , Buffer Ram, Total Swap Space, Free Swap Space, Number of Processes

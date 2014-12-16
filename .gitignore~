@@ -8,7 +8,6 @@ _obj
 _test
 logs
 bin
-tmp
 
 # Architecture specific extensions/prefixes
 *.[568vq]

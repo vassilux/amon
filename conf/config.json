@@ -1,0 +1,13 @@
+{
+	"listenAddr": ":8181",
+	"dbMySqlHost": "localhost:3306",
+    "dbMySqlUser": "root",
+    "dbMySqlPassword": "lepanos",
+    "dbMySqlName": "asteriskcdrdb",
+ 	"mongoHost": "127.0.0.1",
+	"asteriskAddr": "192.168.3.20",
+ 	"asteriskPort" : 5038,
+ 	"asteriskUser" : "astmanager",
+ 	"asteriskPassword": "lepanos",
+	"crmMonFile": "/home/vassilux/Projects/ESI/amon/tmp/crm_mon.xml"
+}

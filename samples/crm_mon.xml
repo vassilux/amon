@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<crm_mon version="1.1.7">
+    <summary>
+        <last_update time="Tue Nov 25 14:29:04 2014" />
+        <last_change time="Tue Nov 25 14:27:17 2014" user="" client="crm_attribute" origin="astnode2" />
+        <stack type="openais" />
+        <current_dc present="true" version="1.1.7-ee0730e13d124c3d58f00016c3376a1de5323cff" name="astnode1" id="astnode1" with_quorum="true" />
+        <nodes_configured number="2" expected_votes="2" />
+        <resources_configured number="5" />
+    </summary>
+    <nodes>
+        <node name="astnode1" id="astnode1" online="true" standby="false" standby_onfail="false" pending="false" unclean="false" shutdown="false" expected_up="true" is_dc="true" resources_running="3" type="member" />
+        <node name="astnode2" id="astnode2" online="true" standby="false" standby_onfail="false" pending="false" unclean="false" shutdown="false" expected_up="true" is_dc="false" resources_running="0" type="member" />
+    </nodes>
+    <resources>
+        <resource id="asterisk_ip" resource_agent="ocf::heartbeat:IPaddr2" role="Started" active="true" orphaned="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="astnode1" id="astnode1" />
+        </resource>
+        <resource id="asterisk" resource_agent="ocf::Digium:asterisk" role="Started" active="true" orphaned="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="astnode1" id="astnode1" />
+        </resource>
+        <resource id="asterisk_fs" resource_agent="ocf::heartbeat:Filesystem" role="Started" active="true" orphaned="false" managed="true" failed="false" failure_ignored="false" nodes_running_on="1" >
+            <node name="astnode1" id="astnode1" />
+        </resource>
+    </resources>
+</crm_mon>
