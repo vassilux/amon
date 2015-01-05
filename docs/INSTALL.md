@@ -18,7 +18,7 @@ Gestion de cluster est prise en compte par crm_mon via la ligne de commande : cr
 Cette commande doit/peut être ajouter dans le ficheir /etc/rc.local pour être prise en comptre au démarrage de l'application.
 
 ### Configuraiton
-Fichier de la configuraiton config.json contient les patramètres suivantes :
+Fichier de la configuraiton config.json contient les patramètres suivants :
 
 	ListenAddr  l'adresse et le port d'écoute de serveur web
 	DbMySqlHost      l'adresse et le port de serveur http
