@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	VERSION = "0.0.1"
+	VERSION = "1.0.0"
 )
 
 var (
@@ -106,7 +106,7 @@ func getStatusGbl(w http.ResponseWriter, r *http.Request) {
 }
 
 func getIndex(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("<html><body><H1><center>Thank to use AMON version  " + VERSION + "(not production ready)</center></b><center><H2>Live well</H2></center></body></html>"))
+	w.Write([]byte("<html><body><H1><center>Thank to use AMON version  " + VERSION + "</center></b><center><H2>Live well</H2></center></body></html>"))
 
 }
 

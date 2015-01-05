@@ -18,7 +18,18 @@ Gestion de cluster est prise en compte par crm_mon via la ligne de commande : cr
 Cette commande doit/peut être ajouter dans le ficheir /etc/rc.local pour être prise en comptre au démarrage de l'application.
 
 ### Configuraiton
-
+Fichier de la configuraiton config.json contient les patramètres suivantes :
+	ListenAddr  l'adresse et le port d'écoute de serveur web
+	DbMySqlHost      l'adresse et le port de serveur http
+	DbMySqlUser      le nom d'utilisateur mysql 
+	DbMySqlPassword  le mot de passe d'utilisateur mysql
+	DbMySqlName      le nom de la base de données
+	MongoHost        l'adresse de serveur de base de données mongodb
+	AsteriskAddr     l'adresse de serveur AMI d'asterisk
+	AsteriskPort     le port de serveur AMI d'asterisk
+	AsteriskUser     l'utilsateur AMI 
+	AsteriskPassword le mot de passe d'utilisateur AMI
+	CrmMonFile       le chemin de fichier des information de cluster
 
 
 ### Mise à jour 

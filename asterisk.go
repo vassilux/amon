@@ -7,6 +7,16 @@ import (
 	"strings"
 )
 
+var (
+	dh func(m gami.Message)
+)
+
+func debughandler(m gami.Message) {
+
+	fmt.Println(m)
+
+}
+
 func ConnectToAsterisk(addr string, port int, username string, password string) (a *gami.Asterisk, con net.Conn, err error) {
 	con, err = net.Dial("tcp", fmt.Sprintf("%s:%d", addr, port))
 	if err != nil {
@@ -14,6 +24,9 @@ func ConnectToAsterisk(addr string, port int, username string, password string) 
 	}
 	//
 	a = gami.NewAsterisk(&con, nil)
+
+	//dh = debughandler
+	//a.DefaultHandler(&dh)
 
 	err = a.Login(username, password)
 
@@ -25,6 +38,7 @@ func sendAsteriskAMICommande(ast *gami.Asterisk, command string) (gami.Message, 
 	ch := make(chan gami.Message)
 
 	check := func(m gami.Message) {
+		//fmt.Println(m)
 		ch <- m
 	}
 
@@ -40,14 +54,29 @@ func sendAsteriskAMICommande(ast *gami.Asterisk, command string) (gami.Message, 
 }
 
 //Get the asterisk serveur uptime
-func getAsteriskSystemUptime(ast *gami.Asterisk) (uptime string, err error) {
-	m, err := sendAsteriskAMICommande(ast, "core show uptime")
+func getAsteriskSystemUptime(ast *gami.Asterisk) (startup string, lastreload string, err error) {
 
-	if err != nil {
-		return "", err
+	ch := make(chan gami.Message)
+
+	check := func(m gami.Message) {
+		//fmt.Println(m)
+		ch <- m
 	}
 
-	return m["System uptime"], nil
+	m := gami.Message{"Action": "CoreStatus"}
+
+	err = ast.SendAction(m, &check)
+
+	res := <-ch
+
+	if err != nil {
+		return "", "", err
+	}
+
+	startUp := fmt.Sprintf("%s %s", res["CoreStartupDate"], res["CoreStartupTime"])
+	lastRealod := fmt.Sprintf("%s %s", res["CoreReloadDate"], res["CoreReloadTime"])
+	return startUp, lastRealod, nil
+
 }
 
 func getAsteriskPriSpans(ast *gami.Asterisk) (r []PriSpan, err error) {
@@ -242,7 +271,7 @@ func GetAsteriskInfo(ast *gami.Asterisk) (*AsteriskInfo, error) {
 
 	astInfo := NewAsteriskInfo()
 
-	astInfo.Uptime, err = getAsteriskSystemUptime(ast)
+	astInfo.StartUptime, astInfo.LastReload, err = getAsteriskSystemUptime(ast)
 
 	if err != nil {
 		return astInfo, err

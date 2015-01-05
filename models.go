@@ -171,7 +171,8 @@ func (s *SipTrunk) String() string {
 }
 
 type AsteriskInfo struct {
-	Uptime         string
+	StartUptime    string
+	LastReload     string
 	ActiveCalls    string
 	ProcessedCalls string
 	PriSpans       []PriSpan
@@ -186,8 +187,8 @@ func NewAsteriskInfo() *AsteriskInfo {
 }
 
 func (a *AsteriskInfo) String() string {
-	s := fmt.Sprintf("Uptime:%s\nActiveCalls:%s\nProcessedCalls:%s\n",
-		a.Uptime, a.ActiveCalls, a.ProcessedCalls)
+	s := fmt.Sprintf("StartUptime:%s\nLastRelaod:%s\nActiveCalls:%s\nProcessedCalls:%s\n",
+		a.StartUptime, a.LastReload, a.ActiveCalls, a.ProcessedCalls)
 
 	var priSpans []string
 	var sipPeers []string
@@ -221,6 +222,8 @@ func (a *AsteriskInfo) GblString() string {
 	var sipPeers []string
 	var voipTrunks []string
 
+	priSpans = append(priSpans, fmt.Sprintf("Spans = [%d]\n", len(a.PriSpans)))
+
 	for i := 0; i < len(a.PriSpans); i++ {
 		upDown := "Down"
 
@@ -245,6 +248,8 @@ func (a *AsteriskInfo) GblString() string {
 		sipPeers = append(sipPeers, peer)
 	}
 
+	voipTrunks = append(voipTrunks, fmt.Sprintf("Trunks = [%d]\n", len(a.IaxTrunks)+len(a.SipTrunks)))
+
 	for i := 0; i < len(a.IaxTrunks); i++ {
 		voipTrunk := fmt.Sprintf("Trunk = [%s:IAX:%s]\n", a.IaxTrunks[i].Username, a.IaxTrunks[i].State)
 
@@ -259,7 +264,7 @@ func (a *AsteriskInfo) GblString() string {
 
 	}
 
-	s := fmt.Sprintf("Uptime = [%s]\nActiveCalls = [%s]\nProcessedCalls = [%s]\n%s%s%s\n",
-		a.Uptime, a.ActiveCalls, a.ProcessedCalls, strings.Join(priSpans, ""), strings.Join(voipTrunks, ""), strings.Join(sipPeers, ""))
+	s := fmt.Sprintf("StartUptime = [%s]\nLastReload = [%s]\nActiveCalls = [%s]\nProcessedCalls = [%s]\n%s%s%s\n",
+		a.StartUptime, a.LastReload, a.ActiveCalls, a.ProcessedCalls, strings.Join(priSpans, ""), strings.Join(voipTrunks, ""), strings.Join(sipPeers, ""))
 	return s
 }
