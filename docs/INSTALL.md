@@ -19,6 +19,7 @@ Cette commande doit/peut être ajouter dans le ficheir /etc/rc.local pour être 
 
 ### Configuraiton
 Fichier de la configuraiton config.json contient les patramètres suivantes :
+
 	ListenAddr  l'adresse et le port d'écoute de serveur web
 	DbMySqlHost      l'adresse et le port de serveur http
 	DbMySqlUser      le nom d'utilisateur mysql 
@@ -30,6 +31,8 @@ Fichier de la configuraiton config.json contient les patramètres suivantes :
 	AsteriskUser     l'utilsateur AMI 
 	AsteriskPassword le mot de passe d'utilisateur AMI
 	CrmMonFile       le chemin de fichier des information de cluster
+	
+	
 
 
 ### Mise à jour 
